@@ -8,12 +8,41 @@ import Dashboard from '../../components/dashboard/Dashboard';
 import Conditions from '../../components/conditions/Conditions';
 import VmpConfig from '../../components/vmp-config/VmpConfig';
 import VmpVaccinationSchedule from '../../components/vmp-vaccination-schedule/VmpVaccinationSchedule';
-import VmpAddressData from '../../components/vmp-address-data/VmpAddressData';
+import AddressData from '../../components/address-data/AddressData';
 import VmpTranslations from '../../components/vmp-translations/VmpTranslations';
 import NotificationConfiguration from '../../components/notification-configuration/NotificationConfiguration';
 import NotificationTemplates from '../../components/notification-templates/NotificationTemplates';
+import Location from '../../components/locations/Location';
+import UserAccount from '../../components/user-account/UserAccount';
+import ManageRegimens from '../../components/manage-regimens/ManageRegimens';
+import FindPatientColumnsConfiguration from '../../components/find-patient-columns-configuration/FindPatientColumnsConfiguration';
 
 export const routeConfig = [
+  {
+    path: '/patient-record-columns-configuration',
+    component: FindPatientColumnsConfiguration,
+    breadcrumb: 'findPatientColumnsConfiguration.title'
+  },
+  {
+    path: '/regimens',
+    component: ManageRegimens,
+    breadcrumb: 'manageRegimens.title'
+  },
+  {
+    path: '/locations/edit-location/:locationId',
+    component: Location,
+    breadcrumb: 'locations.location.edit.title'
+  },
+  {
+    path: '/locations/create-location',
+    component: Location,
+    breadcrumb: 'locations.location.create.title'
+  },
+  {
+    path: '/user-account',
+    component: UserAccount,
+    breadcrumb: 'userAccount.title'
+  },
   {
     path: '/conditions/:patientUuid/manage',
     component: Condition,
@@ -35,9 +64,9 @@ export const routeConfig = [
     breadcrumb: 'vmpVaccinationSchedule.title'
   },
   {
-    path: '/vmp-address-data',
-    component: VmpAddressData,
-    breadcrumb: 'vmpAddressData.title'
+    path: '/address-data',
+    component: AddressData,
+    breadcrumb: 'addressData.title'
   },
   {
     path: '/vmp-translations',

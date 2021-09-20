@@ -275,7 +275,7 @@ class Condition extends React.Component<IConditionsProps, IConditionsState> {
           </div>
           <div className="d-inline pull-right confirm-button-container">
             <Button className="save" onClick={this.save} disabled={!this.state.concept}>
-              <FormattedMessage id="manageCondition.save" />
+              <FormattedMessage id="common.save" />
             </Button>
           </div>
         </div>
@@ -288,7 +288,7 @@ const mapStateToProps = ({ concept, settings, condition, cflPatient }) => ({
   concepts: concept.concepts,
   error: concept.errorMessage,
   conceptListClasses: settings.setting?.value,
-  conceptQuery: concept.q,
+  conceptQuery: concept.query,
   condition: condition.condition,
   conditionUpdated: condition.conditionUpdated,
   patient: cflPatient.patient

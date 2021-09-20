@@ -18,9 +18,17 @@ import concept from './concept';
 import condition from './condition';
 import breadcrumbs from './breadcrumbs';
 import visit from './visit';
-import addressData from './addressData';
+import addressData from './address-data';
 import provider from './provider';
 import messages from './messages';
+import role from './role';
+import user from './user';
+import manageRegimens from './manage-regimens';
+import orderSet from './order-set';
+import drugs from './drugs';
+import orderFrequency from './order-frequency';
+import orderType from './order-type';
+import findPatientColumnsConfiguration from './columns-configuration';
 
 export default combineReducers({
   cflPatient,
@@ -38,11 +46,19 @@ export default combineReducers({
   person,
   patient,
   personStatus,
+  role,
+  user,
   customizeReducer,
   visit,
   addressData,
   provider,
   messages,
+  manageRegimens,
+  orderSet,
+  drugs,
+  orderFrequency,
+  orderType,
+  findPatientColumnsConfiguration,
   openmrs: openmrsReducers,
   form: reduxFormReducer
 });

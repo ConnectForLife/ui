@@ -1,4 +1,4 @@
-#app .vmp-address-data {
+#app #address-data {
   .radio-button-wrapper {
     .radio-button {
       min-height: 0 !important;
@@ -7,6 +7,21 @@
 
   .upload-button-wrapper {
     padding-bottom: 5em;
+  }
+
+  .upload-button {
+    display: flex;
+    justify-content: flex-end;
+
+    .spinner-border {
+      width: 1.3rem;
+      height: 1.3rem;
+      vertical-align: -0.6em;
+    }
+
+    button {
+      margin-left: 0.5em;
+    }
   }
 
   .upload-error {
@@ -18,6 +33,7 @@
 
   .table-section {
     border: 1px solid #e5e5e5;
+    text-align: center;
 
     .title-section {
       display: flex;

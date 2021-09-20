@@ -499,12 +499,12 @@ class VmpVaccinationSchedule extends React.Component<IVmpVaccinationScheduleProp
               <div className="mt-5 pb-5">
                 <div className="d-inline">
                   <Button className="cancel" onClick={this.return}>
-                    <FormattedMessage id="vmpConfig.return" />
+                    <FormattedMessage id="common.return" />
                   </Button>
                 </div>
                 <div className="d-inline pull-right confirm-button-container">
                   <Button className="save" onClick={this.onSave} disabled={loading || !this.canSave()}>
-                    <FormattedMessage id="vmpConfig.save" />
+                    <FormattedMessage id="common.save" />
                   </Button>
                 </div>
               </div>
@@ -517,8 +517,8 @@ class VmpVaccinationSchedule extends React.Component<IVmpVaccinationScheduleProp
 }
 
 const mapStateToProps = ({ apps, settings, visit }) => ({
-  dosingVisitTypes: apps?.vmpConfig?.dosingVisitTypes ?? DEFAULT_DOSING_VISIT_TYPES,
-  regimenUpdatePermitted: apps?.vmpConfig?.regimenUpdatePermitted ?? DEFAULT_REGIMEN_UPDATE_PERMITTED,
+  dosingVisitTypes: apps?.vmpDosingVisitTypes ?? DEFAULT_DOSING_VISIT_TYPES,
+  regimenUpdatePermitted: apps?.vmpRegimenUpdatePermitted ?? DEFAULT_REGIMEN_UPDATE_PERMITTED,
   appError: apps.errorMessage,
   appLoading: apps.loading,
   error: apps.errorMessage,

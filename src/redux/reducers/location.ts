@@ -1,38 +1,70 @@
 import axios from 'axios';
-
+import { ILocation, ILocationState } from '../../shared/models/location';
 import { FAILURE, REQUEST, SUCCESS } from '../action-type.util';
+import { AnyAction } from 'redux';
 
 export const ACTION_TYPES = {
-  SEARCH_LOCATIONS: 'person/SEARCH_LOCATIONS',
-  RESET_LOCATIONS: 'person/RESET_LOCATIONS'
+  SEARCH_LOCATIONS: 'location/SEARCH_LOCATIONS',
+  GET_LOCATION: 'location/GET_LOCATION',
+  GET_LOCATION_ATTRIBUTE_TYPES: 'location/GET_LOCATION_ATTRIBUTE_TYPES',
+  POST_LOCATION: 'location/POST_LOCATION'
 };
 
-const initialState = {
-  loading: false,
+const initialState: ILocationState = {
+  loadingLocations: false,
   locations: [],
-  errorMessage: ''
+  errorMessage: '',
+  locationAttributeTypes: [],
+  loadingLocationAttributeTypes: false,
+  success: false,
+  loadingLocation: false,
+  location: null
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.SEARCH_LOCATIONS):
       return {
         ...state,
-        loading: true
+        loadingLocations: true
+      };
+    case REQUEST(ACTION_TYPES.GET_LOCATION):
+      return {
+        ...state,
+        loadingLocation: true
+      };
+    case REQUEST(ACTION_TYPES.GET_LOCATION_ATTRIBUTE_TYPES):
+      return {
+        ...state,
+        loadingLocationAttributeTypes: true
       };
     case FAILURE(ACTION_TYPES.SEARCH_LOCATIONS):
       return {
-        ...initialState,
+        ...state,
         errorMessage: action.payload.message
       };
     case SUCCESS(ACTION_TYPES.SEARCH_LOCATIONS):
       return {
-        ...initialState,
+        ...state,
+        loadingLocations: false,
         locations: action.payload.data.results
       };
-    case ACTION_TYPES.RESET_LOCATIONS:
+    case SUCCESS(ACTION_TYPES.GET_LOCATION):
       return {
-        ...initialState
+        ...state,
+        loadingLocation: false,
+        location: action.payload.data.results[0]
+      };
+    case SUCCESS(ACTION_TYPES.GET_LOCATION_ATTRIBUTE_TYPES):
+      return {
+        ...state,
+        loadingLocationAttributeTypes: false,
+        locationAttributeTypes: action.payload.data.results
+      };
+    case SUCCESS(ACTION_TYPES.POST_LOCATION):
+      return {
+        ...state,
+        success: true
       };
     default:
       return state;
@@ -40,7 +72,7 @@ const reducer = (state = initialState, action) => {
 };
 
 // actions
-export const searchLocations = q => {
+export const searchLocations = (q?: string) => {
   const requestUrl = `/openmrs/ws/rest/v1/location${!!q ? '?q=' + q : ''}`;
   return {
     type: ACTION_TYPES.SEARCH_LOCATIONS,
@@ -48,8 +80,19 @@ export const searchLocations = q => {
   };
 };
 
-export const reset = () => ({
-  type: ACTION_TYPES.RESET_LOCATIONS
+export const getLocation = (id: string) => ({
+  type: ACTION_TYPES.GET_LOCATION,
+  payload: axios.get(`/openmrs/ws/rest/v1/location?s=byId&id=${id}&v=full`)
+});
+
+export const getLocationAttributeTypes = () => ({
+  type: ACTION_TYPES.GET_LOCATION_ATTRIBUTE_TYPES,
+  payload: axios.get('/openmrs/ws/rest/v1/locationattributetype?v=full')
+});
+
+export const saveLocation = (location: ILocation) => ({
+  type: ACTION_TYPES.POST_LOCATION,
+  payload: axios.post(`/openmrs/ws/rest/v1/location${location.uuid ? '/' + location.uuid : ''}`, location)
 });
 
 export default reducer;

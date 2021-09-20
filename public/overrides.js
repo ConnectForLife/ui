@@ -105,6 +105,55 @@ jqr &&
     if (!!htmlForm) {
       removeDatePickerPlaceholders(htmlForm);
     }
+    // AGRE-15: replace URLs of 'Add New Location' and 'Edit' buttons on 'Manage Locations' page
+    if (this.URL.includes('locations/manageLocations.page')) {
+      const addNewLocationButton = document.querySelector('#content > a.button');
+      if (addNewLocationButton) {
+        addNewLocationButton.href = `${CFL_UI_BASE}index.html#/locations/create-location`;
+      }
+      const editLocationButtons = document.querySelectorAll('#content #list-locations .edit-action');
+      if (editLocationButtons) {
+        editLocationButtons.forEach(button => {
+          const buttonOnClick = button.getAttribute('onclick');
+          if (buttonOnClick && buttonOnClick.includes('locationId')) {
+            const regexp = /(?<=locationId=).+(?=&)/;
+            const locationId = buttonOnClick.match(regexp)[0];
+            button.setAttribute('onclick', `location.href='${CFL_UI_BASE}index.html#/locations/edit-location/${locationId}'`);
+          }
+        });
+      }
+    }
+
+    if (this.URL.includes('accounts/manageAccounts.page')) {
+      const addNewUserAccount = document.querySelector('#content > a.button');
+      const editUsersAccount = document.querySelectorAll('#list-accounts .icon-pencil.edit-action');
+      const overrideEditUserAccountLinks = editUserAccoutLinks =>
+        editUserAccoutLinks.forEach(editUserAccoutLink => {
+          const currentLocationHref = editUserAccoutLink.getAttribute('onclick');
+          const personIdPosition = currentLocationHref.indexOf('personId=');
+          const personId = currentLocationHref.slice(personIdPosition, currentLocationHref.length - 2);
+
+          editUserAccoutLink.onclick = () => (document.location.href = `${CFL_UI_BASE}index.html#/user-account?${personId}`);
+        });
+
+      if (addNewUserAccount) {
+        addNewUserAccount.href = `${CFL_UI_BASE}index.html#/user-account`;
+      }
+
+      if (editUsersAccount.length) {
+        const pagination = document.querySelector('#list-accounts_wrapper > .datatables-info-and-pg');
+
+        overrideEditUserAccountLinks(editUsersAccount);
+
+        if (pagination) {
+          pagination.addEventListener('click', function () {
+            const editUserAccountIcons = document.querySelectorAll('#list-accounts .icon-pencil.edit-action');
+
+            overrideEditUserAccountLinks(editUserAccountIcons);
+          });
+        }
+      }
+    }
   });
 
 function redesignAllergyUI() {

@@ -1,6 +1,6 @@
 {
   "name": "cfl-ui",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "private": true,
   "homepage": "./",
   "dependencies": {
@@ -19,7 +19,7 @@
     "@svgr/webpack": "5.5.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.8.0",
+    "@testing-library/user-event": "^13.2.1",
     "@types/jest": "^26.0.20",
     "@types/node": "^12.20.4",
     "@types/react": "^16.14.5",
@@ -43,6 +43,7 @@
     "bootstrap-icons": "^1.5.0",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "classnames": "^2.3.1",
     "codemirror": "^5.62.2",
     "country-list": "^2.2.0",
     "css-loader": "4.3.0",
@@ -93,6 +94,7 @@
     "react-dom": "^16.4.2",
     "react-dropzone": "^11.3.4",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-input-mask": "^2.0.4",
     "react-intl": "^5.13.2",
     "react-phone-number-input": "^3.1.17",
     "react-redux": "^5.1.2",
@@ -107,6 +109,7 @@
     "reactstrap": "^8.9.0",
     "redux": "^4.0.5",
     "redux-form": "^8.3.7",
+    "redux-mock-store": "^1.5.4",
     "redux-promise-middleware": "^6.1.2",
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.3.0",
@@ -141,6 +144,7 @@
     "build:dev": "node scripts/build.js && ./deploy-dev.sh",
     "watch": "node scripts/watch.js",
     "test": "node scripts/test.js",
+    "test:coverage": "npm run test -- --watchAll --coverage",
     "prettier:format": "prettier --write \"(src|public)/**/*.{json,ts,tsx,css,scss,js}\"",
     "lint": "tslint --project tsconfig.json -e 'node_modules/**'",
     "lint:fix": "npm run lint -- --fix",
@@ -183,7 +187,7 @@
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jsdom",
-    "testRunner": "/home/user/cfl/cfl-ui/node_modules/jest-circus/runner.js",
+    "testRunner": "<rootDir>/node_modules/jest-circus/runner.js",
     "transform": {
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
@@ -192,6 +196,10 @@
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
       "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "<rootDir>"
     ],
     "modulePaths": [],
     "moduleNameMapper": {

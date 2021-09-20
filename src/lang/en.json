@@ -20,25 +20,13 @@
     "title": "Find Caregiver Record",
     "searchInputPlaceholder": "Search by Id, name or phone number"
   },
-  "vmp": {
-    "dropzone": {
-      "openFileDialog": "Open File Dialog",
-      "acceptedFile": "Accepted File:",
-      "rejectedFile": "Rejected File:"
-    },
-    "upload": {
-      "button": "Upload file"
-    },
-    "download": {
-      "csvFileSample": "csv file sample",
-      "txtFileSample": "txt file sample",
-      "button": "Download file"
-    }
+  "dropzone": {
+    "openFileDialog": "Open File Dialog",
+    "acceptedFile": "Accepted File:",
+    "rejectedFile": "Rejected File:"
   },
   "vmpConfig": {
     "title": "Manage Configuration",
-    "save": "Save",
-    "return": "Return",
     "syncScope": "Sync Scope",
     "syncScopeTooltip": "Defines if the tablet will sync data for the specific site or the whole country (depends on the size of the study).",
     "operatorCredentialsOfflineRetentionTime": "Operator Credentials Offline Retention Time",
@@ -61,6 +49,8 @@
     "addressFieldsTooltip": "For each country, define which address fields should be shown in the app, as well as what they should be displayed as. E.g.: Address 1, display as 'Street'.",
     "allowManualParticipantIDEntry": "Manual Participant ID Entry",
     "allowManualParticipantIDEntryTooltip": "Indicate whether the operator is allowed to manually enter a participant ID.",
+    "enableBiometricOnlySearchWithoutPhone": "Enable Biometric Only Search Without Phone",
+    "enableBiometricOnlySearchWithoutPhoneTooltip": "If enabled and only biometric identification criteria are specified, local biometric search will only be done for participants without a phone number. If disabled, the local biometric search for only biometric identification criteria will done for all participants.",
     "participantIDRegex": "Participant ID Regex",
     "manufacturersName": "Name",
     "barcodeRegex": "Barcode Regex",
@@ -77,8 +67,6 @@
     "delete": "Delete",
     "success": "Configuration saved successfully!",
     "addNew": "Add new",
-    "moveUp": "Move up",
-    "moveDown": "Move down",
     "error": {
       "header": "Error",
       "configurationInvalid": "Some fields are not entered correctly. Please check the configuration.",
@@ -125,7 +113,7 @@
       "body": "Changing the Regimen will affect current configuration.{br}Do you want to proceed?"
     }
   },
-  "vmpAddressData": {
+  "addressData": {
     "title": "Manage Address Data",
     "upload": {
       "title": "Upload Address Data",
@@ -144,13 +132,19 @@
         }
       },
       "success": "Address data uploaded successfully",
-      "addressDataEmpty": "There is no file to be displayed yet"
+      "addressDataEmpty": "There is no file to be displayed yet",
+      "button": "Upload file"
     },
     "dropzone": {
       "instruction": "Drag and drop Address Data file here. The file should be in .csv or .txt format."
     },
     "table": {
       "title": "Uploaded File"
+    },
+    "download": {
+      "csvFileSample": "csv file sample",
+      "txtFileSample": "txt file sample",
+      "button": "Download file"
     }
   },
   "vmpTranslations": {
@@ -162,7 +156,8 @@
       "title": "Upload File",
       "instruction1": "Please upload file in <b>.csv</b> format. The file should contain <b>comma delimiter</b>.",
       "modalHeader": "Uploading new file",
-      "modalBody": "Are you sure you want to overwrite existing data?"
+      "modalBody": "Are you sure you want to overwrite existing data?",
+      "button": "Upload file"
     },
     "table": {
       "defaultLanguage": "Default",
@@ -170,7 +165,8 @@
       "filter": {
         "phrase": "Search by phrase",
         "language": "Search by language"
-      }
+      },
+      "empty": "There is no file to be displayed yet"
     },
     "addLanguage": {
       "title": "Add language",
@@ -186,7 +182,8 @@
     },
     "download": {
       "modalHeader": "Warning",
-      "modalBody": "You haven’t saved the changes. The downloaded file might not be complete.{br}Do you want to continue?"
+      "modalBody": "You haven’t saved the changes. The downloaded file might not be complete.{br}Do you want to continue?",
+      "button": "Download file"
     }
   },
   "conditions": {
@@ -195,7 +192,6 @@
     "set": "SET",
     "active": "Active",
     "inactive": "Inactive",
-    "return": "Return",
     "addNew": "Add new Condition",
     "remove": "Remove Condition",
     "removeConfirmation": "Are you sure you want to remove condition for this patient?",
@@ -213,8 +209,7 @@
     "condition": "Condition",
     "onsetDate": "Onset Date",
     "endDate": "End date",
-    "cancel": "Cancel",
-    "save": "Save"
+    "cancel": "Cancel"
   },
   "columnNames": {
     "patientIdentifier": "Identifier",
@@ -444,11 +439,28 @@
     },
     "success": "Configuration saved successfully!"
   },
+  "locations": {
+    "location": {
+      "create.title": "Add New Location",
+      "edit.title": "Edit Location",
+      "name": "Location Name",
+      "description": "Description",
+      "address1": "Address (line 1)",
+      "address2": "Address (line 2)",
+      "cityVillage": "City/Village",
+      "stateProvince": "State/Province",
+      "postalCode": "Postal Code",
+      "country": "Country",
+      "delete": "Delete Location"
+    }
+  },
   "common": {
     "yes": "Yes",
     "no": "No",
     "ok": "Ok",
     "cancel": "Cancel",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
     "ordinalSuffix": {
       "st": "st",
       "nd": "nd",
@@ -457,11 +469,91 @@
     },
     "required": "(Required)",
     "error": {
-      "required": "Required"
+      "required": "Required",
+      "nameUnique": "The name should be unique. Please try again.",
+      "nameInvalid": "Username is invalid. It must be between 2 and 50 characters. Only letters, digits, '.', '-', and '_' are allowed.",
+      "invalidEmail": "The email address is invalid. Please correct it.",
+      "invalidPassword": "Your entered password does not match the needed complexity. It should be minimum 8 characters long and contain at least: one upper and one lower case characters, one digit. Please try again.",
+      "confirmPassword": "Your entered passwords do not match. Please try again."
     },
     "switch": {
       "on": "on",
       "off": "off"
+    },
+    "return": "Return",
+    "save": "Save",
+    "true": "True",
+    "false": "False"
+  },
+  "userAccount": {
+    "title": "User Account",
+    "add": "Add New Account",
+    "edit": "Edit Account",
+    "accountNotSaved": "Not all fields have been filled in correctly. Please try again.",
+    "auditInfo": {
+      "title": "Audit info",
+      "created": "Created By {creator} On {date}",
+      "changedBy": "Changed By {changedBy} On {date}"
+    },
+    "personDetails": {
+      "title": "Person Details",
+      "familyName": "Family Name",
+      "givenName": "Given Name",
+      "phone": "Phone",
+      "email": "Email"
+    },
+    "userAccountDetails": {
+      "title": "User Account Details",
+      "username": "Username",
+      "locations": "Locations",
+      "userRole": "User Role",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "forcePasswordChange": "Force Password Change"
+    },
+    "deleteAccount": {
+      "label": "Delete Account",
+      "confirmationModal": {
+        "header": "Warning",
+        "body": "Are you sure you want to delete this account?"
+      }
+    }
+  },
+  "manageRegimens": {
+    "title": "Manage Regimens",
+    "regimenName": "Regimen Name",
+    "drugName": "Drug Name",
+    "drugAbbreviation": "Drug Abbreviation",
+    "doseUnitType": "Dose Unit Type",
+    "numberOfUnits": "Number Of Units",
+    "frequency": "Frequency",
+    "addNewRegimen": "Add New Regimen",
+    "deleteRegimenModal": {
+      "header": "Warning",
+      "body": "Are you sure you want to delete this regimen?"
+    },
+    "deleteDrugModal": {
+      "header": "Warning",
+      "body": "Are you sure you want to delete this drug?"
+    },
+    "regimenDeleted": "The regimen has been deleted.",
+    "drugDeleted": "The drug has been deleted.",
+    "regimensNotSaved": "The regimens have not been saved. Please try again.",
+    "regimensSaved": "The regimens have been saved.",
+    "error": {
+      "regimenNameUnique": "The regimen name should be unique. Please try again."
+    }
+  },
+  "findPatientColumnsConfiguration": {
+    "title": "Manage Patient's Record Columns Configuration",
+    "columnName": "Column Name",
+    "configureColumns": "Configure Columns",
+    "configurationNotSaved": "The columns configuration has not been saved.",
+    "emptyColumnsConfiguration": "Please configure at least one column.",
+    "configurationSaved": "The columns configuration has been saved.",
+    "modal": {
+      "header": "Submit Columns Configuration",
+      "body": "Are you sure you want to submit Columns Configuration for the Patient's Record?"
     }
   }
 }
