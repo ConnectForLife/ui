@@ -1,0 +1,48 @@
+.conditions {
+  .inner-content {
+    margin-top: 1rem;
+    background-color: white;
+  }
+  .nav-link {
+    color: #495057;
+  }
+  .nav-link.active {
+    color: black !important;
+  }
+
+  .set-status-button {
+    background-color: #cccccc;
+    border: none;
+    color: black;
+    padding: 5px;
+    font-size: 10px;
+    margin: 2px 2px;
+    border-radius: 4px;
+  }
+}
+
+.condition {
+  .inner-content {
+    margin-top: 1rem;
+    background-color: white;
+  }
+  max-width: 800px;
+  .input-container {
+    margin-bottom: 1.25rem;
+  }
+  .confirm-button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.modal-title {
+  color: white;
+}
+
+.modal {
+  button.cancel {
+    background: transparent;
+    color: black;
+  }
+}

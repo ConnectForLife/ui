@@ -1,0 +1,13 @@
+#app .switch-with-label {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+
+  label {
+    font-weight: normal;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+#app .vmp-address-data {
+  .radio-button-wrapper {
+    .radio-button {
+      min-height: 0 !important;
+    }
+  }
+
+  .upload-button-wrapper {
+    padding-bottom: 5em;
+  }
+
+  .upload-error {
+    clear: both;
+    margin-top: 1em;
+    color: #df2020;
+    font-weight: bold;
+  }
+
+  .table-section {
+    border: 1px solid #e5e5e5;
+
+    .title-section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2em;
+    }
+
+    .address-data-empty {
+      color: #777676;
+      text-align: center;
+    }
+  }
+}
