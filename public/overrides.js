@@ -45,10 +45,20 @@ jqr &&
       remainingContainersChildren.detach().appendTo(firstInfoContainer);
     }
     // replace 'None' with '-NO DATA-' in each widget
-    jqr('.info-body').each(function (index) {
-      const text = jqr(this).find('li').text().trim() || jqr(this).find('p').text().trim() || jqr(this).text().trim();
-      if (text === 'None' || text === 'Unknown' || text.length === 0) {
-        jqr(this).replaceWith("<div class='info-body empty'><span class='label'>-NO DATA-</span></div>");
+    const noDataLabel = "<span class='label'>-NO DATA-</span>";
+    const emptyWidgetBody = `<div class='info-body empty'>${noDataLabel}</div>`;
+
+    jqr('.info-body').each((_, widgetBody) => {
+      const text = jqr(widgetBody).find('li').text().trim() || jqr(widgetBody).find('p').text().trim() || jqr(widgetBody).text().trim();
+      if (text.toLowerCase() === 'none' || text.toLowerCase() === 'unknown') {
+        jqr(widgetBody).replaceWith(emptyWidgetBody);
+      } else if (!text.length) {
+        jqr(widgetBody).append(noDataLabel);
+        jqr(widgetBody).addClass('empty');
+        elementReady('ul > li', widgetBody).then(() => {
+          jqr(widgetBody).children().last().remove();
+          jqr(widgetBody).removeClass('empty');
+        });
       }
     });
     // replace the url of 'Patient profile', 'Caregiver profile' and 'Conditions'
@@ -126,35 +136,37 @@ jqr &&
 
     if (this.URL.includes('accounts/manageAccounts.page')) {
       const addNewUserAccount = document.querySelector('#content > a.button');
-      const editUsersAccount = document.querySelectorAll('#list-accounts .icon-pencil.edit-action');
-      const overrideEditUserAccountLinks = editUserAccoutLinks =>
-        editUserAccoutLinks.forEach(editUserAccoutLink => {
-          const currentLocationHref = editUserAccoutLink.getAttribute('onclick');
-          const personIdPosition = currentLocationHref.indexOf('personId=');
-          const personId = currentLocationHref.slice(personIdPosition, currentLocationHref.length - 2);
-
-          editUserAccoutLink.onclick = () => (document.location.href = `${CFL_UI_BASE}index.html#/user-account?${personId}`);
-        });
+      const editUserAccount = document.querySelectorAll('#list-accounts .icon-pencil.edit-action');
+      const pagination = document.querySelector('#list-accounts_wrapper > .datatables-info-and-pg');
+      const accountFilterInput = document.querySelector('#list-accounts_filter input');
 
       if (addNewUserAccount) {
         addNewUserAccount.href = `${CFL_UI_BASE}index.html#/user-account`;
       }
 
-      if (editUsersAccount.length) {
-        const pagination = document.querySelector('#list-accounts_wrapper > .datatables-info-and-pg');
-
-        overrideEditUserAccountLinks(editUsersAccount);
-
-        if (pagination) {
+      if (editUserAccount.length) {
+        overrideEditUserAccountLinks(editUserAccount);
+        pagination &&
           pagination.addEventListener('click', function () {
-            const editUserAccountIcons = document.querySelectorAll('#list-accounts .icon-pencil.edit-action');
-
-            overrideEditUserAccountLinks(editUserAccountIcons);
+            overrideEditUserAccountLinks(document.querySelectorAll('#list-accounts .icon-pencil.edit-action'));
           });
-        }
+        accountFilterInput &&
+          accountFilterInput.addEventListener('input', function () {
+            overrideEditUserAccountLinks(document.querySelectorAll('#list-accounts .icon-pencil.edit-action'));
+          });
       }
     }
   });
+
+function overrideEditUserAccountLinks(editUserAccoutLinks) {
+  editUserAccoutLinks.forEach(editUserAccoutLink => {
+    const currentLocationHref = editUserAccoutLink.getAttribute('onclick');
+    const personIdPosition = currentLocationHref.indexOf('personId=');
+    const personId = currentLocationHref.slice(personIdPosition, currentLocationHref.length - 2);
+
+    editUserAccoutLink.setAttribute('onclick', `location.href='${CFL_UI_BASE}index.html#/user-account?${personId}'`);
+  });
+}
 
 function redesignAllergyUI() {
   const allergies = document.querySelector('#allergies');
@@ -331,22 +343,22 @@ function htmlToElements(htmlString) {
  * @param notEmpty
  * @returns {Promise}
  */
-function elementReady(selector, notEmpty = false) {
+function elementReady(selector, parentElement = document, notEmpty = false) {
   return new Promise((resolve, reject) => {
-    let el = document.querySelector(selector);
+    let el = parentElement.querySelector(selector);
     if (el && (!notEmpty || !!el.textContent)) {
       resolve(el);
     }
     new MutationObserver((mutationRecords, observer) => {
       // Query for elements matching the specified selector
-      Array.from(document.querySelectorAll(selector)).forEach(element => {
+      Array.from(parentElement.querySelectorAll(selector)).forEach(element => {
         if (!notEmpty || !!element.textContent) {
           resolve(element);
           // Once we have resolved we don't need the observer anymore.
           observer.disconnect();
         }
       });
-    }).observe(document.documentElement, {
+    }).observe(parentElement === document ? document.documentElement : parentElement, {
       childList: true,
       subtree: true
     });
